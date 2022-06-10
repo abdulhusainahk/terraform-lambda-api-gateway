@@ -15,3 +15,7 @@ output "base_url" {
 
   value = module.api_gateway.invoke_url
 }
+output "s3_object_key" {
+  description = "S3 obeject key."
+  value       = module.aws_s3_bucket.s3_object_key
+}

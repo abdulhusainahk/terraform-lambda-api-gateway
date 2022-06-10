@@ -5,5 +5,5 @@ output "s3_bucket_id" {
 }
 output "s3_object_key" {
   description = "S3 obeject key."
-  value =  aws_s3_object.s3_object[0].key
+  value =  aws_s3_object.s3_object[*]
 }

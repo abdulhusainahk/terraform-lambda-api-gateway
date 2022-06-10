@@ -29,3 +29,10 @@ variable "create_object" {
 variable "object_source" {
   type=string
 }
+variable "tagtype" {
+  type=map(string)
+}
+variable "obj_lock_enabled" {
+  type = bool
+  default = false
+}
