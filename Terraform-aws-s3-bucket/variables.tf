@@ -22,7 +22,7 @@ variable "key" {
   type = string
   default = "my-key"
 }
-variable "create_object" {
+variable "use_for_lambda" {
   type=bool
   default=false
 }

@@ -14,7 +14,6 @@ module "aws_s3_bucket" {
   bucket          = random_pet.bucket_name.id
   destroy         = var.force_destroy_bucket
   bucket_acl_type = var.bucket_acl_type
-  //create_object   = true
   key             = "${random_pet.object_name.id}.${var.archive_type}"
   //object_source   = data.archive_file.archive_data.output_path
   object_source = "${path.root}/hello-world/"
@@ -25,7 +24,6 @@ module "aws_s3_bucket" {
   }
 }
 module "aws_lambda" {
-
   source           = "./Terraform-aws-lambda"
   function_name    = var.function_name
  // s3_bucket        = module.aws_s3_bucket.s3_bucket_id
