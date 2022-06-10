@@ -15,20 +15,21 @@ module "aws_s3_bucket" {
   destroy         = var.force_destroy_bucket
   bucket_acl_type = var.bucket_acl_type
   //create_object   = true
-  key = "${random_pet.object_name.id}.${var.archive_type}"
+  key             = "${random_pet.object_name.id}.${var.archive_type}"
   //object_source   = data.archive_file.archive_data.output_path
-  object_source    = "${path.root}/hello-world/"
-  obj_lock_enabled = false
-  tagtype = {
+  object_source = "${path.root}/hello-world/"
+  obj_lock_enabled= false
+  tagtype={
     Name        = "My bucket"
     Environment = "Dev"
   }
 }
 module "aws_lambda" {
-  source        = "./Terraform-aws-lambda"
-  function_name = var.function_name
-  //s3_bucket        = module.aws_s3_bucket.s3_bucket_id
-  // s3_key           = module.aws_s3_bucket.s3_object_key
+
+  source           = "./Terraform-aws-lambda"
+  function_name    = var.function_name
+ // s3_bucket        = module.aws_s3_bucket.s3_bucket_id
+ // s3_key           = module.aws_s3_bucket.s3_object_key
   filename         = data.archive_file.archive_data.output_path
   runtime          = "nodejs12.x"
   handler          = "hello.handler"
@@ -45,7 +46,7 @@ resource "aws_cloudwatch_log_group" "lambda" {
   retention_in_days = 30
 }
 resource "aws_cloudwatch_log_group" "api_gw" {
-  name              = "/aws/api_gw/${module.api_gateway.gatewayname}"
+  name = "/aws/api_gw/${module.api_gateway.gatewayname}"
   retention_in_days = 30
 }
 ///////////////////////////////////////////////////////////////////////////////////
@@ -71,12 +72,12 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 }
 /////////////////////////////////////////////////////////////////
 module "api_gateway" {
-  source             = "./Terraform-aws-api-gtw"
-  api_gateway_name   = "serverless_lambda"
-  protocol_type      = "HTTP"
-  destination_arn    = aws_cloudwatch_log_group.api_gw.arn
+  source= "./Terraform-aws-api-gtw"
+  api_gateway_name="serverless_lambda"
+  protocol_type="HTTP"
+  destination_arn = aws_cloudwatch_log_group.api_gw.arn
   integration_uri    = module.aws_lambda.lambda_invoke_arn
   integration_type   = "AWS_PROXY"
   integration_method = "POST"
-  route_key          = "GET /hello"
+  route_key = "GET /hello"
 }
